@@ -1,37 +1,25 @@
 import os
-DEBUG = True
 
 RESOURCE_METHODS = ['GET','POST','DELETE']
-ITEM_METHODS = ['GET','PATCH','DELETE']
-EVENTS_METHODS = ['GET','PATCH','DELETE']
 
-SERVER_NAME = os.environ['HOSTNAME']
+ITEM_METHODS = ['GET','PATCH','DELETE']
+
+#MONGO_HOST = 'db' 
+#MONGO_PORT = '27017'
 
 MONGO_HOST = os.environ['DB_PORT_27017_TCP_ADDR']
 MONGO_PORT = os.environ['DB_PORT_27017_TCP_PORT']
 
-MONGO_USERNAME = os.environ.get('MONGO_USER', 'reloca')
-MONGO_PASSWORD = os.environ.get('MONGO_PASSWORD', 'reloca123')
-MONGO_DBNAME = os.environ.get('MONGO_DBNAME', 'relocaDB')
-
-MONGO_USERNAME = 'reloca'
-MONGO_PASSWORD = 'reloca123'
+#MONGO_USERNAME = 'reloca'
+#MONGO_PASSWORD = 'reloca123'
 MONGO_DBNAME = 'relocaDB'
-
-URL_PREFIX = 'api'
-API_VERSION = 'v1'
-INFO = '_info'
-SORTING = 'True'
-
-IF_MATCH = False
 
 X_DOMAINS = '*'
 X_HEADERS = ['Authorization','If-Match','Access-Control-Expose-Headers','Content-Type','Pragma','Cache-Control']
 X_EXPOSE_HEADERS = ['Origin', 'X-Requested-With', 'Content-Type', 'Accept']
 
-reloca_users= {
-        'item_title': 'reloca_users',
-	'MONGO_QUERY_BLACKLIST' : ['$where' ,'$regex'],
+DOMAIN = {
+    'user': {
         'additional_lookup': {
             'url': 'regex("[\w]+")',
             'field': 'username',
@@ -50,62 +38,21 @@ reloca_users= {
 	    'password': {
 		'type': 'string'
 	    },
-	    'allowed_roles': {
-                'type': 'string','required': True, 'allowed': ["admin", "viewer"]
-	    },
-            'database': {
+            'phone': {
                 'type': 'string'
             }
         }
-    }
-
-reloca_projects= {
-        'MONGO_QUERY_BLACKLIST' : ['$where'],
+    },
+    'item': {
+	'MONGO_QUERY_BLACKLIST' : ['$where'],
         'schema': {
             'name':{
-                'type': 'string',
-		'unique': True
+                'type': 'string'
                 },
-            'description': { 'type': 'string' },
-            'method_loc': {'type': 'string','required': True , 'default': '/reloca'},
-            'user': {
-                'type': 'string',
-                'required': True,
-                'data_relation': {
-                      'resource': 'users',
-                       'field': 'username',
-                       'embeddable': True
-                },
-            }
-        }
-        }
-
-reloca_events= { 
-        'item_title': 'reloca_events',
-        'additional_lookup': { 'url': 'regex("[\w]+")', 'field': 'name' },
-        'MONGO_QUERY_BLACKLIST' : ['$where'],
-        'schema': {
-            'name': {'type': 'string','required': True},
-            'type': {'type': 'string','required': True, 'allowed': ["local", "global"]},
-            'host': {'type': 'string','default': 'ALL'},
-            'description': { 'type': 'string' },
-            'project': {
-                'type': 'string',
-                'required': True,
-                'data_relation': {
-                      'resource': 'runs',
-                       'field': 'name',
-                       'embeddable': True
-                }
+            'username': {
+                'type': 'string'
                 }
             },
-         'resource_methods': ['GET','POST','DELETE'],
-         'item_methods': ['GET','PATCH','DELETE']
+        'resource_methods': ['GET', 'POST','DELETE'],
         }
-
-DOMAIN = {
-    'users': reloca_users,
-    'events': reloca_events,
-    'runs': reloca_projects
 }
-DOMAIN = {'people': {}}
