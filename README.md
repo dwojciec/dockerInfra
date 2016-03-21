@@ -46,21 +46,21 @@ Read [Setting up a development environment using Docker and Vagrant](https://git
 llcf6:vagrant_getting_started$ vagrant global-status
 id       name                provider   state              directory                                                 
 ---------------------------------------------------------------------------------------------------------------------
-0870deb  dockerhostvm        virtualbox running            /Users//RELOCA/vagrant_getting_started 
-026d781  reloca-container    docker     stopped            /Users//RELOCA/vagrant_getting_started 
+976955c  dockerhostvm        virtualbox running            /Users/relocaio/dockerInfra/vagrant_getting_started 
+8e134e7  reloca-container    docker     preparing          /Users/relocaio/dockerInfra/vagrant_getting_started
 ```
 
 ```
-llcf6:vagrant_getting_started $ vagrant ssh 0870deb
+llcf6:vagrant_getting_started $ vagrant ssh 976955c
 Welcome to Ubuntu 14.04.4 LTS (GNU/Linux 3.13.0-83-generic x86_64)
 
  * Documentation:  https://help.ubuntu.com/
 
-  System information as of Mon Mar 21 16:40:22 UTC 2016
+  System information as of Mon Mar 21 18:48:17 UTC 2016
 
-  System load:  0.36              Processes:              86
-  Usage of /:   5.0% of 39.34GB   Users logged in:        0
-  Memory usage: 37%               IP address for eth0:    10.0.2.15
+  System load:  0.44              Processes:              87
+  Usage of /:   4.5% of 39.34GB   Users logged in:        0
+  Memory usage: 31%               IP address for eth0:    10.0.2.15
   Swap usage:   0%                IP address for docker0: 172.17.0.1
 
   Graph this data and manage this system at:
@@ -70,21 +70,37 @@ Welcome to Ubuntu 14.04.4 LTS (GNU/Linux 3.13.0-83-generic x86_64)
     http://www.ubuntu.com/business/services/cloud
 
 
-*** System restart required ***
-Last login: Mon Mar 21 16:40:22 2016 from 10.0.2.2
-
 vagrant@vagrant-ubuntu-trusty-64:~$ docker images
-REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
-<none>              <none>              c99be0f85471        About an hour ago   188 MB
-ubuntu              14.04               97434d46f197        2 days ago          188 MB
-vagrant@vagrant-ubuntu-trusty-64:~$ 
+REPOSITORY          TAG                 IMAGE ID            CREATED              SIZE
+<none>              <none>              129fa92c9eb9        About a minute ago   188 MB
+ubuntu              14.04               97434d46f197        3 days ago           188 MB
+vagrant@vagrant-ubuntu-trusty-64:~$ docker ps -a
+CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS                          PORTS               NAMES
+7ec181e6384d        129fa92c9eb9        "ping '-c 10' 127.0.0"   About a minute ago   Exited (0) About a minute ago                       reloca-container
+vagrant@vagrant-ubuntu-trusty-64:~$ docker logs 7ec181e6384d
+PING 127.0.0.1 (127.0.0.1) 56(84) bytes of data.
+64 bytes from 127.0.0.1: icmp_seq=1 ttl=64 time=0.045 ms
+64 bytes from 127.0.0.1: icmp_seq=2 ttl=64 time=0.053 ms
+64 bytes from 127.0.0.1: icmp_seq=3 ttl=64 time=0.047 ms
+64 bytes from 127.0.0.1: icmp_seq=4 ttl=64 time=0.044 ms
+64 bytes from 127.0.0.1: icmp_seq=5 ttl=64 time=0.040 ms
+64 bytes from 127.0.0.1: icmp_seq=6 ttl=64 time=0.060 ms
+64 bytes from 127.0.0.1: icmp_seq=7 ttl=64 time=0.033 ms
+64 bytes from 127.0.0.1: icmp_seq=8 ttl=64 time=0.045 ms
+64 bytes from 127.0.0.1: icmp_seq=9 ttl=64 time=0.034 ms
+64 bytes from 127.0.0.1: icmp_seq=10 ttl=64 time=0.037 ms
 
+--- 127.0.0.1 ping statistics ---
+10 packets transmitted, 10 received, 0% packet loss, time 9000ms
+rtt min/avg/max/mdev = 0.033/0.043/0.060/0.011 ms
+vagrant@vagrant-ubuntu-trusty-64:~
 
 ```
-
+ Our VM image is READY to use Docker container for our Development.
+ Go to /vagrant directory.
+ This directory /vagrant is mapped with the Workspace directory. 
 
 ## Installation
-From /Users/relocaio/dockerInfra directory 
 
 docker compose build
 
