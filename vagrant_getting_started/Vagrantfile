@@ -1,0 +1,19 @@
+ENV['VAGRANT_DEFAULT_PROVIDER'] = 'docker'
+DOCKER_HOST_NAME = "dockerhostvm"
+DOCKER_HOST_VAGRANTFILE = "./DockerHostVagrantfile"
+ 
+Vagrant.configure("2") do |config|
+ 
+ config.vm.synced_folder ".", "/user/local/src"
+ config.vm.define "reloca-container" do |m|
+ 
+	m.vm.provider :docker do |d|
+	  d.name = 'reloca-container'
+	  d.build_dir = "."
+	  d.cmd = ["ping", "-c 10", "127.0.0.1"]
+	  d.remains_running = true
+	  d.vagrant_machine = "#{DOCKER_HOST_NAME}"
+	  d.vagrant_vagrantfile = "#{DOCKER_HOST_VAGRANTFILE}"
+	end
+ end
+end

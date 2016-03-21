@@ -1,0 +1,22 @@
+Vagrant.configure("2") do |config|
+ 
+config.vm.provision "docker"
+ 
+# The following line terminates all ssh connections. Therefore Vagrant will be forced to reconnect.
+# That's a workaround to have the docker command in the PATH
+# Command: "docker" "ps" "-a" "-q" "--no-trunc"
+# without it, I run into this error:
+# Stderr: Get http:///var/run/docker.sock/v1.19/containers/json?all=1: dial unix /var/run/docker.sock: permission denied.
+# Are you trying to connect to a TLS-enabled daemon without TLS?
+ 
+config.vm.provision "shell", inline:
+"ps aux | grep 'sshd:' | awk '{print $2}' | xargs kill"
+ 
+config.vm.define "dockerhostvm"
+config.vm.box = "ubuntu/trusty64"
+ 
+config.vm.provider :virtualbox do |vb|
+vb.name = "dockerhostvm"
+end
+ 
+end
