@@ -2,6 +2,12 @@
 
 ![image](https://github.com/dwojciec/dockerInfra/blob/master/images/docker%2Bvagrant.jpg)
 
+## Requirements
+
+1. Install Vagrant
+2. Install Virtualbox
+
+
 Docker and Vagrant can be used together to build isolated and repeatable development environments. 
 ![image](https://github.com/dwojciec/dockerInfra/blob/master/images/vagrant-docker.png)
 
