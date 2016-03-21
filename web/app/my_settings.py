@@ -1,5 +1,0 @@
-MONGO_HOST = ''
-MONGO_PORT = 27017
-MONGO_USERNAME = '<user>'
-MONGO_PASSWORD = '<pw>'
-MONGO_DBNAME = '<dbname>'
