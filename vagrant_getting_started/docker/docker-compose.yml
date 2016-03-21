@@ -1,0 +1,17 @@
+web:
+  build: ./web
+  env_file: .env
+  ports:
+    - "5000:5000"
+    - "80:80"
+  volumes:
+    - ./web/app:/app
+  command: python -u /app/app.py
+  links:
+    - db
+db:
+  image: reloca/mongodb
+  ports: 
+    - "27017:27017"
+  volumes:
+    - ./mongodb:/var/lib/mongo
