@@ -80,6 +80,7 @@ vagrant@vagrant-ubuntu-trusty-64:~$
 
 ## Installation
 From /Users/relocaio/dockerInfra directory 
+
 docker compose build
 
 docker compose up
