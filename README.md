@@ -24,16 +24,21 @@ llcf6:relocaio$ ls
 dockerInfra
 llcf6:relocaio $ cd dockerInfra/
 llcf6:dockerInfra $ ls
-README.md		images			web
-db			mongodb
-docker-compose.yml	vagrant_getting_started
-llcf6:dockerInfra$ pwd
-/Users/relocaio/dockerInfra
-
+README.md		images			vagrant_getting_started
+lcf6:dockerInfra $ cd vagrant_getting_started/
+llcf6:vagrant_getting_started $ pwd
+/Users/relocaio/dockerInfra/vagrant_getting_started
+llcf6:vagrant_getting_started $ ls
+DockerHostVagrantfile
+Dockerfile
+Setting up a development environment using Docker and Vagrant.md
+Vagrantfile
+readme.txt
+llcf6:vagrant_getting_started $ vagrant up
 ```
 
 
-# Setting up a development environment 
+# Setting up a development environment using __vagrant up__
 Read [Setting up a development environment using Docker and Vagrant](https://github.com/dwojciec/dockerInfra/blob/master/vagrant_getting_started/Setting%20up%20a%20development%20environment%20using%20Docker%20and%20Vagrant.md) to provision your VM with docker installed 
 
 ## Connect to the vagrant VM
