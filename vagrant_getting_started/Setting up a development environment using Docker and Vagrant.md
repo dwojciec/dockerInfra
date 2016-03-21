@@ -1,9 +1,9 @@
 ## Setting up a development environment using Docker and Vagrant
 
-![image](http://)
+![image](https://github.com/dwojciec/dockerInfra/blob/master/images/docker%2Bvagrant.jpg)
 
 Docker and Vagrant can be used together to build isolated and repeatable development environments. 
-![image](http://)
+![image](https://github.com/dwojciec/dockerInfra/blob/master/images/vagrant-docker.png)
 
 ### Run Docker containers in a custom Docker host
 
