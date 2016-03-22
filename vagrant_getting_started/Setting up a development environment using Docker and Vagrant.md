@@ -36,6 +36,12 @@ config.vm.network "forwarded_port", guest: 5000, host: 8080
 
 During the provionning of the VM we are installing Docker-compose as a container by using  __install_docker_compose.sh__.
 
+Compose can also be run inside a container, from a small bash script wrapper. To install compose as a container run:
+
+```
+$ curl -L https://github.com/docker/compose/releases/download/1.6.2/run.sh > /usr/local/bin/docker-compose
+$ chmod +x /usr/local/bin/docker-compose
+```
 
 Create docker container called _reloca-container_ file __Vagrantfile__. I will create and run a very simple Docker container, based on the Ubuntu 14.04 image. The container will do very little of interest: it pings localhost 10 times and exits. 
 
