@@ -1,5 +1,8 @@
-web:
+version: '2'
+services:
+ web:
   build: ./web
+  image: reloca/eve
   env_file: .env
   ports:
     - "5000:5000"
@@ -9,9 +12,13 @@ web:
   command: python -u /app/app.py
   links:
     - db
-db:
+  hostname: "app01"
+  depends_on:
+    - db
+
+ db:
+  build: ./db
   image: reloca/mongodb
   ports: 
     - "27017:27017"
-  volumes:
-    - ./mongodb:/var/lib/mongo
+  hostname: "db01"
