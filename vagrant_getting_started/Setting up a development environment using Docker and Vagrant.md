@@ -17,16 +17,25 @@ Create the VM host called _dockerhostvm_ file __DockerHostVagrantfile__
 
 ```
 Vagrant.configure("2") do |config| 
+config.vm.network "forwarded_port", guest: 5000, host: 8080
  config.vm.provision "docker"  
   config.vm.provision "shell", inline:
    "ps aux | grep 'sshd:' | awk '{print $2}' | xargs kill" 
      config.vm.define "dockerhostvm"
      config.vm.box = "ubuntu/trusty64" 
+# Run the specified shell script when creating the VM. The "provision"
+# line tells Vagrant to use the shell provisioner to setup the machine,
+# with the install_docker_compose.sh file. The file path is relative to the location
+# of the project root (where the Vagrantfile is).
+     config.vm.provision :shell, :path => "install_docker_compose.sh" 
      config.vm.provider :virtualbox do |vb|
      vb.name = "dockerhostvm"
   end  
  end 
 ```
+
+During the provionning of the VM we are installing Docker-compose as a container by using  __install_docker_compose.sh__.
+
 
 Create docker container called _reloca-container_ file __Vagrantfile__. I will create and run a very simple Docker container, based on the Ubuntu 14.04 image. The container will do very little of interest: it pings localhost 10 times and exits. 
 
