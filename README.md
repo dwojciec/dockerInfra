@@ -97,25 +97,82 @@ vagrant@vagrant-ubuntu-trusty-64:~
 
 ```
  Our VM image is READY to use Docker container for our Development.
+ 
  Go to /vagrant directory.
  This directory /vagrant is mapped with the Workspace directory. 
 
 ## Installation
 
-docker compose build
-
 docker compose up
 
+```
+vagrant@vagrant-ubuntu-trusty-64:/vagrant/docker$ docker-compose -f docker-compose.yml -p relocaio up -d
 
+vagrant@vagrant-ubuntu-trusty-64:/vagrant/docker$ docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+reloca/eve          latest              0ad471c67842        42 minutes ago      299.8 MB
+reloca/mongodb      latest              1cab766b67f9        44 minutes ago      446.4 MB
+<none>              <none>              f6fa19250713        48 minutes ago      188 MB
+ubuntu              14.04               97434d46f197        3 days ago          188 MB
+centos              latest              d0e7f81ca65c        2 weeks ago         196.6 MB
+docker/compose      1.6.2               d2d56dd5ed11        3 weeks ago         57.96 MB
+
+vagrant@vagrant-ubuntu-trusty-64:/vagrant/docker$ docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                                                NAMES
+69ec8a1ffb4d        reloca/eve          "python -u /app/app.p"   9 minutes ago       Up 9 minutes        0.0.0.0:80->80/tcp, 0.0.0.0:5000->5000/tcp, 81/tcp   relocaio_web_1
+31823ec17b31        reloca/mongodb      "/bin/mongod -f /etc/"   11 minutes ago      Up 11 minutes       0.0.0.0:27017->27017/tcp                             relocaio_db_1
+
+vagrant@vagrant-ubuntu-trusty-64:/vagrant/docker$ curl -i http://localhost:5000
+HTTP/1.0 200 OK
+Content-Type: application/json
+Content-Length: 66
+Server: Eve/0.6.3 Werkzeug/0.11.3 Python/2.7.5
+Date: Tue, 22 Mar 2016 11:25:11 GMT
+
+{"_links": {"child": [{"href": "contacts", "title": "contacts"}]}}vagrant@vagrant-ubuntu-trusty-64:/vagrant/docker$ 
+vagrant@vagrant-ubuntu-trusty-64:/vagrant/docker$
+```
+
+From my Terminal session or from a browser  :
+
+```
+llcf6: $ curl -i localhost:8080
+HTTP/1.0 200 OK
+Content-Type: application/json
+Content-Length: 66
+Server: Eve/0.6.3 Werkzeug/0.11.3 Python/2.7.5
+Date: Tue, 22 Mar 2016 11:29:12 GMT
+
+{"_links": {"child": [{"href": "contacts", "title": "contacts"}]}}
+```
 
 ## To connect to your Mongodb container
-docker exec -it reloca_db_1 bash
+```
+vagrant@vagrant-ubuntu-trusty-64:/vagrant/docker$ docker exec -it relocaio_db_1 bash
+bash-4.2# cd /var/log/mongodb
+bash-4.2# ls
+mongod.log
+bash-4.2# tail -f mongod.log 
+2016-03-22T11:13:23.175+0000 D STORAGE  [initandlisten] create collection local.startup_log { capped: true, size: 10485760 }
+2016-03-22T11:13:23.175+0000 D STORAGE  [initandlisten] stored meta data for local.startup_log @ RecordId(1)
+2016-03-22T11:13:23.176+0000 I NETWORK  [HostnameCanonicalizationWorker] Starting hostname canonicalization worker
+2016-03-22T11:13:23.176+0000 D COMMAND  [PeriodicTaskRunner] BackgroundJob starting: PeriodicTaskRunner
+2016-03-22T11:13:23.176+0000 D COMMAND  [ClientCursorMonitor] BackgroundJob starting: ClientCursorMonitor
+2016-03-22T11:13:23.176+0000 D COMMAND  [TTLMonitor] BackgroundJob starting: TTLMonitor
+2016-03-22T11:13:23.178+0000 D STORAGE  [initandlisten] local.startup_log: clearing plan cache - collection info cache reset
+2016-03-22T11:13:23.178+0000 D STORAGE  [initandlisten] create uri: table:index-1-2701992292802169122 config: type=file,internal_page_max=16k,leaf_page_max=16k,checksum=on,prefix_compression=true,block_compressor=,,,,key_format=u,value_format=u,app_metadata=(formatVersion=6,infoObj={ "v" : 1, "key" : { "_id" : 1 }, "name" : "_id_", "ns" : "local.startup_log" }),
+2016-03-22T11:13:23.182+0000 D STORAGE  [initandlisten] local.startup_log: clearing plan cache - collection info cache reset
+2016-03-22T11:13:23.182+0000 I NETWORK  [initandlisten] waiting for connections on port 27017
+```
+or directly using this command
 
-docker exec -it reloca_db_1 tail -f /var/log/mongodb/mongod.log
+```
+docker exec -it relocaio_db_1 tail -f /var/log/mongodb/mongod.log
+```
 
 ### access to the mongodb
 
-docker exec -it reloca_db_1 mongo "$MONGO_PORT_27017_TCP_ADDR:$MONGO_PORT_27017_TCP_PORT"
+docker exec -it relocaio_db_1 mongo "$MONGO_PORT_27017_TCP_ADDR:$MONGO_PORT_27017_TCP_PORT"
 
 ### Issue found with --volumes option for Mongodb :
 
