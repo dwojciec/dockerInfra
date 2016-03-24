@@ -1,7 +1,7 @@
-# create a developement workspace
+# Create a developement workspace
 1. Run Terminal 
 2. create directory
-3. clone the git repository
+3. clone the Project git repository
 
 ```
 Last login: Mon Mar 21 16:59:22 on ttys005
@@ -9,7 +9,7 @@ llcf6:~ $ pwd
 /Users/
 llcf6:~ $ mkdir relocaio
 llcf6:~ $ cd relocaio
-llcf6:relocaio$  git clone git@github.com:dwojciec/dockerInfra.git
+llcf6:relocaio$  git clone -b master git@github.com:dwojciec/dockerInfra.git && cd dockerInfra
 Cloning into 'dockerInfra'...
 Warning: Permanently added the RSA host key for IP address '192.30.252.129' to the list of known hosts.
 remote: Counting objects: 65, done.
@@ -19,10 +19,7 @@ Receiving objects: 100% (65/65), 83.89 KiB | 0 bytes/s, done.
 Resolving deltas: 100% (18/18), done.
 Checking connectivity... done.
 llcf6:relocaio$ pwd
-/Users/relocaio
-llcf6:relocaio$ ls
-dockerInfra
-llcf6:relocaio $ cd dockerInfra/
+/Users/relocaio/dockerInfra
 llcf6:dockerInfra $ ls
 README.md		images			vagrant_getting_started
 lcf6:dockerInfra $ cd vagrant_getting_started/
@@ -34,14 +31,27 @@ Dockerfile
 Setting up a development environment using Docker and Vagrant.md
 Vagrantfile
 readme.txt
+```
+
+## Creation of the VM hosting docker
+To do it we have 2 options :
+
+  - using Vagrant (option 1)
+ 
+  __or__
+ 
+  - using Docker-machine (option 2)
+
+### (option 1) Setting up a development environment using __vagrant up__
+Read [Setting up a development environment using Docker and Vagrant](https://github.com/dwojciec/dockerInfra/blob/master/vagrant_getting_started/Setting%20up%20a%20development%20environment%20using%20Docker%20and%20Vagrant.md) to provision your VM with docker installed 
+
+Execute 
+
+```
 llcf6:vagrant_getting_started $ vagrant up
 ```
 
-
-# Setting up a development environment using __vagrant up__
-Read [Setting up a development environment using Docker and Vagrant](https://github.com/dwojciec/dockerInfra/blob/master/vagrant_getting_started/Setting%20up%20a%20development%20environment%20using%20Docker%20and%20Vagrant.md) to provision your VM with docker installed 
-
-## Connect to the vagrant VM
+#### Connect to the vagrant VM
 ```
 llcf6:vagrant_getting_started$ vagrant global-status
 id       name                provider   state              directory                                                 
@@ -99,9 +109,30 @@ vagrant@vagrant-ubuntu-trusty-64:~
  Our VM image is READY to use Docker container for our Development.
  
  Go to /vagrant directory.
+ 
  This directory /vagrant is mapped with the Workspace directory. 
 
-## Installation
+
+### (option 2) Using docker-machine to build VM
+
+Build VM
+
+```
+docker-machine create --driver virtualbox relocaio
+
+```
+
+Set new environment
+
+```
+docker-machine env relocaio && \
+eval "$(docker-machine env relocaio)"
+```
+
+Now we are ready to create our different docker containers.
+
+
+# Installation
 
 docker compose up
 
