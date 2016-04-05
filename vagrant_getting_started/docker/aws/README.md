@@ -1,5 +1,5 @@
 1. AWS Command Line Interface
-2. s3fs-container (inspired from (https://github.com/childsb/s3fs-container))
+2. s3fs-container (inspired from https://github.com/childsb/s3fs-container)
 
 
 # AWS Command Line Interface 
