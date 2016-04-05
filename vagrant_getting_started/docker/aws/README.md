@@ -79,13 +79,13 @@ To mount a s3 bucket run:
 ./mount.sh bucket mountpoint
 ```
 
-Example:
+_Example:_
 ```bash
 ./mount.sh ebs-staging /mnt/ec2
 ```
 The docker container launches and remains running.  To stop you can ctrl+c.  While the container is running the bucket remains mounted.  You can now access the s3 bucket as a local directory!
 
-# example
+# Example
 
 ```bash
 $ sudo mkdir -p /mnt/ec2
@@ -109,7 +109,8 @@ max_readahead=0x00020000
 Accept: */*
 ```
 
-Open another Terminal window
+Open another __Terminal__ window session 
+
 ```bash
 $ ls -ltr /mnt/ec2
 total 8624
@@ -144,11 +145,14 @@ drwxr-xr-x    1 docker   staff            0 Apr  4 09:38 test/
 # s3fs-fuse
 The container uses s3fs-fuse found here: https://github.com/s3fs-fuse/s3fs-fuse
 
-# notes
-If you have any issue with the :shared inside the docker run command associated to the volume -v you have to check id the host mountpoint is shared. To share it (mountpoint.sh /mnt/ec2)
+# Notes
+If you have any issue with the :shared inside the docker run command associated to the volume -v you have to check if the host mountpoint is __shared__. 
+
+To share it (mountpoint.sh /mnt/ec2)
 
 ```bash
-sudo mount --bind /mnt/ec2 /mnt/ec2 && sudo mount --make-shared /mnt/ec2
+sudo mount --bind /mnt/ec2 /mnt/ec2 
+sudo mount --make-shared /mnt/ec2
 ```
 
 If you are receiving this error :
@@ -159,3 +163,5 @@ try :
 ```bash
 sudo fusermount -uz /mountpoint
 ``` 
+
+Tests *done and validated* on OSX through a Virtualbox docker-machine and on AWS EC2 using 14.04 Trusty Ubuntu AMI
