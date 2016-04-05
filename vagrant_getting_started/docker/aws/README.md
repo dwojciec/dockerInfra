@@ -26,7 +26,7 @@ AWSCLI can also be run __inside a container__, from a small bash script wrapper.
 
 
 ```bash
-$ curl -L https://gist.github.com/dwojciec/9edced5182e798d3e74042fef9baf19d > /usr/local/bin/aws
+$ curl -L https://github.com/dwojciec/dockerInfra/releases/download/1.0/run.sh  > /usr/local/bin/aws
 $ chmod +x /usr/local/bin/aws
 ```
 
