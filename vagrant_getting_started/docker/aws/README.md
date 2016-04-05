@@ -14,7 +14,6 @@ The [AWS Command Line Interface (CLI)](http://docs.aws.amazon.com/cli/latest/ref
 $ docker build -t relocaio/awscli -f Dockerfileawscli .
 $ docker images
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
-relocaio/infra      latest              b7dbbfdbbfea        5 days ago          495.8 MB
 relocaio/s3fs       latest              b7dbbfdbbfea        5 days ago          495.8 MB
 relocaio/awscli     latest              9c1fe9de54db        5 days ago          486.2 MB
 ```
