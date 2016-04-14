@@ -1,5 +1,5 @@
 1. AWS Command Line Interface
-2. s3fs-container
+2. s3fs-container (inspired from https://github.com/childsb/s3fs-container)
 
 
 # AWS Command Line Interface 
@@ -14,7 +14,6 @@ The [AWS Command Line Interface (CLI)](http://docs.aws.amazon.com/cli/latest/ref
 $ docker build -t relocaio/awscli -f Dockerfileawscli .
 $ docker images
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
-relocaio/infra      latest              b7dbbfdbbfea        5 days ago          495.8 MB
 relocaio/s3fs       latest              b7dbbfdbbfea        5 days ago          495.8 MB
 relocaio/awscli     latest              9c1fe9de54db        5 days ago          486.2 MB
 ```
@@ -26,7 +25,7 @@ AWSCLI can also be run __inside a container__, from a small bash script wrapper.
 
 
 ```bash
-$ curl -L https://github.com/dwojciec/dockerInfra/tree/master/vagrant_getting_started/docker/aws/awscli/run.sh > /usr/local/bin/aws
+$ curl -L https://github.com/dwojciec/dockerInfra/releases/download/1.0/run.sh  > /usr/local/bin/aws
 $ chmod +x /usr/local/bin/aws
 ```
 
