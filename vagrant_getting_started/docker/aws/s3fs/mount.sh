@@ -1,5 +1,5 @@
 #!/bin/sh
-
+set +x
 # export S3User=longgeneratedid
 # export S3Secret=longnastygernatedsecret
 
@@ -16,4 +16,4 @@ then
   exit
 fi
 
-docker run --privileged -e S3User=$S3User -e S3Secret=$S3Secret -v $2:/mnt/mountpoint:shared --cap-add SYS_ADMIN relocaio/s3fs $1 /mnt/mountpoint -o passwd_file=/etc/passwd-s3fs -o rw,allow_other -d -d -f -o f2 -o curldbg
+docker run --privileged -e S3User=$S3User -e S3Secret=$S3Secret -v $2:/mnt/mountpoint:shared --cap-add SYS_ADMIN relocaio/s3fs $1 /mnt/mountpoint -o passwd_file=/etc/passwd-s3fs -o parallel_count=20 -o use_cache=/tmp -o rw,allow_other -d -d -f -o f2 -o curldbg

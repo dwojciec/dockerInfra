@@ -16,7 +16,9 @@ conn1=mongodb_conn()
 my_db=conn1.relocaDB
 
 print my_db
-print "hello"
+print "create user reloca"
+result = my_db.add_user('reloca', 'reloca123',roles=[{'role':'readWrite','db':'relocaDB'}])
+print "create row into restaurant collection"
 result = my_db.restaurants.insert(
     {
         "address": {
@@ -43,4 +45,5 @@ result = my_db.restaurants.insert(
         "restaurant_id": "41704621"
     }
 )
+print " create data into DB to execute some test"
 

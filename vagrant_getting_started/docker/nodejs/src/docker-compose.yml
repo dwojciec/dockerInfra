@@ -1,0 +1,10 @@
+# relocaio : Docker compose
+ nodejs:
+    image: relocaio/nodejs-hello:latest
+    links:
+      - mongodb
+    ports:
+      - 49160:8080
+
+ mongodb:
+    image: mongo:latest 

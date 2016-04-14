@@ -1,24 +1,44 @@
 version: '2'
 services:
- web:
+ 
+ eve:
   build: ./web
-  image: reloca/eve
+  image: relocaio/eve
   env_file: .env
   ports:
     - "5000:5000"
     - "80:80"
   volumes:
     - ./web/app:/app
-  command: python -u /app/app.py
+  command: python -u /app/run.py
   links:
-    - db
-  hostname: "app01"
+    - mongo1:db01
+  hostname: "eve01"
   depends_on:
-    - db
-
- db:
+    - mongo1
+  networks:
+   - front-tier
+   - back-tier
+ 
+ nodejs:
+  build: ./nodejs/src
+  image: relocaio/nodejs
+  depends_on:
+    - eve
+  ports:
+    - 49160:8080
+  hostname: "node01"
+  networks:
+   - front-tier
+ mongo1:
   build: ./db
-  image: reloca/mongodb
+  image: relocaio/mongodb
   ports: 
     - "27017:27017"
   hostname: "db01"
+  networks:
+   - back-tier
+
+networks:
+  front-tier:
+  back-tier:

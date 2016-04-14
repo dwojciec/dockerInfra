@@ -21,8 +21,8 @@ class Authenticate(BasicAuth):
         else:
             return True
             
+app = Eve(auth=Authenticate)
 
 if __name__ == '__main__':
-    app = Eve(auth=Authenticate) 
-#    app = Eve()
-    app.run(host='0.0.0.0', port=80,debug=True)
+#    app = Eve(auth=Authenticate) 
+    app.run(host='0.0.0.0', port=80, debug=True)

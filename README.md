@@ -133,13 +133,12 @@ Now we are ready to create our different docker containers.
 
 
 # Installation
+build images and containers using docker compose 
 
-docker compose up
+```bash
+$ docker-compose -f docker-compose.yml -p relocaio up -d
 
-```
-vagrant@vagrant-ubuntu-trusty-64:/vagrant/docker$ docker-compose -f docker-compose.yml -p relocaio up -d
-
-vagrant@vagrant-ubuntu-trusty-64:/vagrant/docker$ docker images
+$ docker images
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 reloca/eve          latest              0ad471c67842        42 minutes ago      299.8 MB
 reloca/mongodb      latest              1cab766b67f9        44 minutes ago      446.4 MB
@@ -148,12 +147,12 @@ ubuntu              14.04               97434d46f197        3 days ago          
 centos              latest              d0e7f81ca65c        2 weeks ago         196.6 MB
 docker/compose      1.6.2               d2d56dd5ed11        3 weeks ago         57.96 MB
 
-vagrant@vagrant-ubuntu-trusty-64:/vagrant/docker$ docker ps
+$ docker ps
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                                                NAMES
 69ec8a1ffb4d        reloca/eve          "python -u /app/app.p"   9 minutes ago       Up 9 minutes        0.0.0.0:80->80/tcp, 0.0.0.0:5000->5000/tcp, 81/tcp   relocaio_web_1
 31823ec17b31        reloca/mongodb      "/bin/mongod -f /etc/"   11 minutes ago      Up 11 minutes       0.0.0.0:27017->27017/tcp                             relocaio_db_1
 
-vagrant@vagrant-ubuntu-trusty-64:/vagrant/docker$ curl -i http://localhost:5000
+$ curl -i http://localhost:5000
 HTTP/1.0 200 OK
 Content-Type: application/json
 Content-Length: 66
@@ -166,8 +165,8 @@ vagrant@vagrant-ubuntu-trusty-64:/vagrant/docker$
 
 From my Terminal session or from a browser  :
 
-```
-llcf6: $ curl -i localhost:8080
+```bash
+$ curl -i localhost:8080
 HTTP/1.0 200 OK
 Content-Type: application/json
 Content-Length: 66
@@ -179,7 +178,7 @@ Date: Tue, 22 Mar 2016 11:29:12 GMT
 
 ## To connect to your Mongodb container
 ```
-vagrant@vagrant-ubuntu-trusty-64:/vagrant/docker$ docker exec -it relocaio_db_1 bash
+$ docker exec -it relocaio_db_1 bash
 bash-4.2# cd /var/log/mongodb
 bash-4.2# ls
 mongod.log
