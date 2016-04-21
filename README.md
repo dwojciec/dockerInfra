@@ -81,9 +81,10 @@ $ls
 aws			docker-compose.yml	nodejs
 db			mongodb			web
 $ docker-compose -f docker-compose.yml -p relocaio up -d
-```bash
+```
 
 To access to the Docker VM
+
 ```bash
 $ docker-machine ssh <name_of_vm>
 ```
