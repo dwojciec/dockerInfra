@@ -141,6 +141,26 @@ Date: Thu, 21 Apr 2016 09:30:06 GMT
 {"_status": "ERR", "_error": {"message": "Please provide proper credentials", "code": 401}}
 ```
 
+To validate the nodejs container. You need to know the IP of your nodejs container using this command :
+
+
+```bash
+docker@developement:~$ docker inspect relocaio_nodejs_1 | grep IPAddress
+            "SecondaryIPAddresses": null,
+            "IPAddress": "",
+                    "IPAddress": "172.18.0.3",
+                    
+docker@developement:~$ curl -i http://172.18.0.3:8080
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: text/html; charset=utf-8
+Content-Length: 12
+Date: Thu, 21 Apr 2016 10:27:40 GMT
+Connection: keep-alive
+
+Hello world
+```
+
 
 From my Terminal session or from a browser  :
 
@@ -156,7 +176,7 @@ Date: Tue, 22 Mar 2016 11:29:12 GMT
 ```
 
 ## To connect to your Mongodb container
-```
+```bash
 $ docker exec -it relocaio_mongo1_1 bash
 bash-4.2# cd /var/log/mongodb
 bash-4.2# ls
@@ -175,14 +195,15 @@ bash-4.2# tail -f mongod.log
 ```
 or directly using this command
 
-```
+```bash
 docker exec -it relocaio_mongo1_1 tail -f /var/log/mongodb/mongod.log
 ```
 
 
 ### Issue found with --volumes option for Mongodb :
 
-``` 2016-03-14T15:45:13.313+0000 E STORAGE  [initandlisten] WiredTiger (22) [1457970313:313814][1:0x7fd837f7ddc0], connection: : fsync: Invalid argument
+```bash
+2016-03-14T15:45:13.313+0000 E STORAGE  [initandlisten] WiredTiger (22) [1457970313:313814][1:0x7fd837f7ddc0], connection: : fsync: Invalid argument
 2016-03-14T15:45:13.315+0000 I -        [initandlisten] Fatal Assertion 28561
 2016-03-14T15:45:13.315+0000 I -        [initandlisten]
 ```
