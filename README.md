@@ -1,4 +1,4 @@
-# Create a developement workspace
+# Create a developement workspace on your laptop
 1. Run Terminal 
 2. create directory
 3. clone the Project git repository
@@ -34,134 +34,93 @@ readme.txt
 ```
 
 ## Creation of the VM hosting docker
-To do it we have 2 options :
-
-  - using Vagrant (option 1)
  
-  __or__
- 
-  - using Docker-machine (option 2)
-
-### (option 1) Setting up a development environment using __vagrant up__
-Read [Setting up a development environment using Docker and Vagrant](https://github.com/dwojciec/dockerInfra/blob/master/vagrant_getting_started/Setting%20up%20a%20development%20environment%20using%20Docker%20and%20Vagrant.md) to provision your VM with docker installed 
-
-Execute 
-
-```
-llcf6:vagrant_getting_started $ vagrant up
-```
-
-#### Connect to the vagrant VM
-```
-llcf6:vagrant_getting_started$ vagrant global-status
-id       name                provider   state              directory                                                 
----------------------------------------------------------------------------------------------------------------------
-976955c  dockerhostvm        virtualbox running            /Users/relocaio/dockerInfra/vagrant_getting_started 
-8e134e7  reloca-container    docker     preparing          /Users/relocaio/dockerInfra/vagrant_getting_started
-```
-
-```
-llcf6:vagrant_getting_started $ vagrant ssh 976955c
-Welcome to Ubuntu 14.04.4 LTS (GNU/Linux 3.13.0-83-generic x86_64)
-
- * Documentation:  https://help.ubuntu.com/
-
-  System information as of Mon Mar 21 18:48:17 UTC 2016
-
-  System load:  0.44              Processes:              87
-  Usage of /:   4.5% of 39.34GB   Users logged in:        0
-  Memory usage: 31%               IP address for eth0:    10.0.2.15
-  Swap usage:   0%                IP address for docker0: 172.17.0.1
-
-  Graph this data and manage this system at:
-    https://landscape.canonical.com/
-
-  Get cloud support with Ubuntu Advantage Cloud Guest:
-    http://www.ubuntu.com/business/services/cloud
+  - using Docker-machine 
 
 
-vagrant@vagrant-ubuntu-trusty-64:~$ docker images
-REPOSITORY          TAG                 IMAGE ID            CREATED              SIZE
-<none>              <none>              129fa92c9eb9        About a minute ago   188 MB
-ubuntu              14.04               97434d46f197        3 days ago           188 MB
-vagrant@vagrant-ubuntu-trusty-64:~$ docker ps -a
-CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS                          PORTS               NAMES
-7ec181e6384d        129fa92c9eb9        "ping '-c 10' 127.0.0"   About a minute ago   Exited (0) About a minute ago                       reloca-container
-vagrant@vagrant-ubuntu-trusty-64:~$ docker logs 7ec181e6384d
-PING 127.0.0.1 (127.0.0.1) 56(84) bytes of data.
-64 bytes from 127.0.0.1: icmp_seq=1 ttl=64 time=0.045 ms
-64 bytes from 127.0.0.1: icmp_seq=2 ttl=64 time=0.053 ms
-64 bytes from 127.0.0.1: icmp_seq=3 ttl=64 time=0.047 ms
-64 bytes from 127.0.0.1: icmp_seq=4 ttl=64 time=0.044 ms
-64 bytes from 127.0.0.1: icmp_seq=5 ttl=64 time=0.040 ms
-64 bytes from 127.0.0.1: icmp_seq=6 ttl=64 time=0.060 ms
-64 bytes from 127.0.0.1: icmp_seq=7 ttl=64 time=0.033 ms
-64 bytes from 127.0.0.1: icmp_seq=8 ttl=64 time=0.045 ms
-64 bytes from 127.0.0.1: icmp_seq=9 ttl=64 time=0.034 ms
-64 bytes from 127.0.0.1: icmp_seq=10 ttl=64 time=0.037 ms
-
---- 127.0.0.1 ping statistics ---
-10 packets transmitted, 10 received, 0% packet loss, time 9000ms
-rtt min/avg/max/mdev = 0.033/0.043/0.060/0.011 ms
-vagrant@vagrant-ubuntu-trusty-64:~
-
-```
- Our VM image is READY to use Docker container for our Development.
- 
- Go to /vagrant directory.
- 
- This directory /vagrant is mapped with the Workspace directory. 
-
-
-### (option 2) Using docker-machine to build VM
+###  Using docker-machine to build VM
 
 Build VM
 
 ```
-docker-machine create --driver virtualbox relocaio
+docker-machine create --driver virtualbox <name_of_vm>
+
+```
+example
+
+```
+docker-machine create --driver virtualbox developpement
 
 ```
 
-Set new environment
+Set new environment. It's very important before running docker-compose
 
 ```
-docker-machine env relocaio && \
-eval "$(docker-machine env relocaio)"
+docker-machine env <name_of_vm> && \
+eval "$(docker-machine env <name_of_vm>)"
 ```
 
 Now we are ready to create our different docker containers.
 
 
 # Installation
-build images and containers using docker compose 
+build images and containers using docker compose.
+You are on your laptop directory where you dowloaded the GIT repository (Create a developement workspace).
+
+Go to your workspace directory 
+```bash
+ cd /Users/<myWokspace>/dockerInfra/vagrant_getting_started/docker
+```
+Into this directory you will find a docker-compose.yml file.
 
 ```bash
+$ eval "$(docker-machine env <name_of_vm>)"
+$ pwd
+/Users/<myWokspace>/dockerInfra/vagrant_getting_started/docker
+$ls
+aws			docker-compose.yml	nodejs
+db			mongodb			web
 $ docker-compose -f docker-compose.yml -p relocaio up -d
+```
 
+To check docker images created by the docker-compose command:
+
+```bash
 $ docker images
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
-reloca/eve          latest              0ad471c67842        42 minutes ago      299.8 MB
-reloca/mongodb      latest              1cab766b67f9        44 minutes ago      446.4 MB
-<none>              <none>              f6fa19250713        48 minutes ago      188 MB
-ubuntu              14.04               97434d46f197        3 days ago          188 MB
-centos              latest              d0e7f81ca65c        2 weeks ago         196.6 MB
-docker/compose      1.6.2               d2d56dd5ed11        3 weeks ago         57.96 MB
-
-$ docker ps
-CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                                                NAMES
-69ec8a1ffb4d        reloca/eve          "python -u /app/app.p"   9 minutes ago       Up 9 minutes        0.0.0.0:80->80/tcp, 0.0.0.0:5000->5000/tcp, 81/tcp   relocaio_web_1
-31823ec17b31        reloca/mongodb      "/bin/mongod -f /etc/"   11 minutes ago      Up 11 minutes       0.0.0.0:27017->27017/tcp                             relocaio_db_1
-
-$ curl -i http://localhost:5000
-HTTP/1.0 200 OK
-Content-Type: application/json
-Content-Length: 66
-Server: Eve/0.6.3 Werkzeug/0.11.3 Python/2.7.5
-Date: Tue, 22 Mar 2016 11:25:11 GMT
-
-{"_links": {"child": [{"href": "contacts", "title": "contacts"}]}}vagrant@vagrant-ubuntu-trusty-64:/vagrant/docker$ 
-vagrant@vagrant-ubuntu-trusty-64:/vagrant/docker$
+relocaio/nodejs     latest              907e83d52b84        3 minutes ago       489.9 MB
+relocaio/eve        latest              f36e62da3cc7        6 minutes ago       334.1 MB
+relocaio/mongodb    latest              2f7eadb88693        8 minutes ago       487.6 MB
+centos              centos6             fc73b108c5ae        2 weeks ago         228.9 MB
+centos              latest              778a53015523        2 weeks ago         196.7 MB
 ```
+
+To validate the docker container running after the docker-compose command:
+
+```bash
+docker@developement:~$ docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                                                NAMES
+410936b519f5        relocaio/nodejs     "npm start"              32 seconds ago      Up 32 seconds       0.0.0.0:49160->8080/tcp                              relocaio_nodejs_1
+894b3cf61969        relocaio/eve        "python -u /app/run.p"   2 minutes ago       Up 2 minutes        0.0.0.0:80->80/tcp, 0.0.0.0:5000->5000/tcp, 81/tcp   relocaio_eve_1
+1f3d0e8a2882        relocaio/mongodb    "/bin/mongod -f /etc/"   4 minutes ago       Up 4 minutes        0.0.0.0:27017->27017/tcp                             relocaio_mongo1_1
+```
+
+EVE REST/API server validation:
+
+```bash
+$ curl -i http://localhost:80
+HTTP/1.0 401 UNAUTHORIZED
+Content-Type: application/json
+Content-Length: 91
+WWW-Authenticate: Basic realm="eve"
+Cache-Control: max-age=20
+Expires: Thu, 21 Apr 2016 09:30:26 GMT
+Server: Eve/0.6.3 Werkzeug/0.11.3 Python/2.7.5
+Date: Thu, 21 Apr 2016 09:30:06 GMT
+
+{"_status": "ERR", "_error": {"message": "Please provide proper credentials", "code": 401}}
+```
+
 
 From my Terminal session or from a browser  :
 
