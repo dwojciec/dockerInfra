@@ -71,7 +71,7 @@ Go to your workspace directory
 ```bash
  cd /Users/<myWokspace>/dockerInfra/vagrant_getting_started/docker
 ```
-Into this directory you will find a docker-compose.yml file.
+Into this directory you will find a docker-compose.yml file and you will execute it from your Workspace directory.
 
 ```bash
 $ eval "$(docker-machine env <name_of_vm>)"
@@ -81,6 +81,11 @@ $ls
 aws			docker-compose.yml	nodejs
 db			mongodb			web
 $ docker-compose -f docker-compose.yml -p relocaio up -d
+```bash
+
+To access to the Docker VM
+```bash
+$ docker-machine ssh <name_of_vm>
 ```
 
 To check docker images created by the docker-compose command:
