@@ -125,7 +125,7 @@ c8ab5918d5e3        relocaio_back-tier    bridge
 ```
 
 
-EVE REST/API server validation:
+EVE REST/API server validation from local VM:
 
 ```bash
 $ curl -i http://localhost:80
@@ -141,7 +141,23 @@ Date: Thu, 21 Apr 2016 09:30:06 GMT
 {"_status": "ERR", "_error": {"message": "Please provide proper credentials", "code": 401}}
 ```
 
+To test it outside the VM. From your laptop you have to be sure that the port used by the EVE container (here 80) is forwarded by the VM and you can use a browser or a application like PAW (MAC OSX) or Postman.
+
+example :
+
+```bash
+$ docker-machine env developement
+export DOCKER_TLS_VERIFY="1"
+export DOCKER_HOST="tcp://192.168.99.103:2376"
+export DOCKER_CERT_PATH="/Users/.docker/machine/machines/developement"
+export DOCKER_MACHINE_NAME="developement"
+```
+
+You can test the URL link http://192.168.99.103:80 
+
+
 To validate the nodejs container. You need to know the IP of your nodejs container using this command :
+
 
 
 ```bash
@@ -216,11 +232,42 @@ see <https://github.com/mvertes/docker-alpine-mongo/issues/1>
 
 ## Inserting data into Mongodb database from the eve container 
 
+```bash
 docker exec -it relocaio_eve_1  sh -c 'exec python /app/mongoclientseeddata.py'
 Connected successfully!!!
 Database(MongoClient(host=['db01:27017'], document_class=dict, tz_aware=False, connect=True), u'relocaDB')
 create user reloca
 create row into restaurant collection
  create data into DB to execute some test
+``` 
  
+## Checking network rules associated with your VM
+
+You can verify the port forwarded from your local VM. It's just a exemple using multiple Docker container.
+
+
+```bash
+$  VBoxManage list vms 
+"default" {5a13f6e5-4ec3-4fe5-bf6e-01714ea5049f}
+"relocaio" {bf447ecf-e747-43bf-a964-0722177f9961}
+"relocaio2" {69d0806e-8d6b-4995-87b1-f576fffdbe19}
+"developement" {1525a124-2864-48a9-b1df-3f4364f3e1d6}
+
+$  VBoxManage showvminfo default  | grep "NIC 1"
+NIC 1:           MAC: 080027D1C4C8, Attachment: NAT, Cable connected: on, Trace: off (file: none), Type: 82540EM, Reported speed: 0 Mbps, Boot priority: 0, Promisc Policy: deny, Bandwidth group: none
+NIC 1 Settings:  MTU: 0, Socket (send: 64, receive: 64), TCP Window (send:64, receive: 64)
+NIC 1 Rule(0):   name = 49152, protocol = udp, host ip = 127.0.0.1, host port = 49152, guest ip = , guest port = 49152
+NIC 1 Rule(1):   name = docker, protocol = tcp, host ip = 127.0.0.1, host port = 4243, guest ip = , guest port = 4243
+NIC 1 Rule(2):   name = gluster, protocol = tcp, host ip = 127.0.0.1, host port = 24007, guest ip = , guest port = 24007
+NIC 1 Rule(3):   name = mongodb, protocol = tcp, host ip = 127.0.0.1, host port = 27017, guest ip = , guest port = 27017
+NIC 1 Rule(4):   name = ssh, protocol = tcp, host ip = 127.0.0.1, host port = 55244, guest ip = , guest port = 22
+NIC 1 Rule(5):   name = tcp1, protocol = tcp, host ip = 127.0.0.1, host port = 9345, guest ip = , guest port = 9345
+NIC 1 Rule(6):   name = tcp2, protocol = tcp, host ip = 127.0.0.1, host port = 9346, guest ip = , guest port = 9346
+NIC 1 Rule(7):   name = tcp3306, protocol = tcp, host ip = 127.0.0.1, host port = 3306, guest ip = , guest port = 3306
+NIC 1 Rule(8):   name = tdp1, protocol = udp, host ip = 127.0.0.1, host port = 500, guest ip = , guest port = 500
+NIC 1 Rule(9):   name = udp, protocol = udp, host ip = 127.0.0.1, host port = 24007, guest ip = , guest port = 24007
+NIC 1 Rule(10):   name = udp2, protocol = udp, host ip = 127.0.0.1, host port = 4500, guest ip = , guest port = 4500
+NIC 1 Rule(11):   name = udp24008, protocol = udp, host ip = 127.0.0.1, host port = 24008, guest ip = , guest port = 24008
+NIC 1 Rule(12):   name = web, protocol = tcp, host ip = 127.0.0.1, host port = 5000, guest ip = , guest port = 5000
+``` 
 
