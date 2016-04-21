@@ -9,7 +9,7 @@ llcf6:~ $ pwd
 /Users/
 llcf6:~ $ mkdir relocaio
 llcf6:~ $ cd relocaio
-llcf6:relocaio$  git clone -b master git@github.com:dwojciec/dockerInfra.git && cd dockerInfra
+llcf6:relocaio$  git clone -b master https://github.com/dwojciec/dockerInfra.git && cd dockerInfra
 Cloning into 'dockerInfra'...
 Warning: Permanently added the RSA host key for IP address '192.30.252.129' to the list of known hosts.
 remote: Counting objects: 65, done.
