@@ -111,6 +111,20 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 1f3d0e8a2882        relocaio/mongodb    "/bin/mongod -f /etc/"   4 minutes ago       Up 4 minutes        0.0.0.0:27017->27017/tcp                             relocaio_mongo1_1
 ```
 
+
+To check network created: 
+
+```bash
+docker@developement:~$ docker network ls
+NETWORK ID          NAME                  DRIVER
+b05af21b8db8        bridge                bridge              
+1bcb0e75ba46        host                  host                
+f0bcec8077eb        none                  null                
+c8ab5918d5e3        relocaio_back-tier    bridge              
+58c84efb4a57        relocaio_front-tier   bridge 
+```
+
+
 EVE REST/API server validation:
 
 ```bash
@@ -143,7 +157,7 @@ Date: Tue, 22 Mar 2016 11:29:12 GMT
 
 ## To connect to your Mongodb container
 ```
-$ docker exec -it relocaio_db_1 bash
+$ docker exec -it relocaio_mongo1_1 bash
 bash-4.2# cd /var/log/mongodb
 bash-4.2# ls
 mongod.log
@@ -162,12 +176,9 @@ bash-4.2# tail -f mongod.log
 or directly using this command
 
 ```
-docker exec -it relocaio_db_1 tail -f /var/log/mongodb/mongod.log
+docker exec -it relocaio_mongo1_1 tail -f /var/log/mongodb/mongod.log
 ```
 
-### access to the mongodb
-
-docker exec -it relocaio_db_1 mongo "$MONGO_PORT_27017_TCP_ADDR:$MONGO_PORT_27017_TCP_PORT"
 
 ### Issue found with --volumes option for Mongodb :
 
@@ -182,14 +193,13 @@ bug opened:
 see <https://github.com/mvertes/docker-alpine-mongo/issues/1>
 
 
-## Inserting data into Mongodb database
-docker inspect --format="{{.Config.Hostname}}" reloca_db_1
+## Inserting data into Mongodb database from the eve container 
 
-docker exec -it reloca_db_1 sh -c 'exec mongo "1417768a7c2c:27017/relocadb"'
+docker exec -it relocaio_eve_1  sh -c 'exec python /app/mongoclientseeddata.py'
+Connected successfully!!!
+Database(MongoClient(host=['db01:27017'], document_class=dict, tz_aware=False, connect=True), u'relocaDB')
+create user reloca
+create row into restaurant collection
+ create data into DB to execute some test
+ 
 
-### To identify hostname of our container 
-dockhostname() {
-  docker inspect --format='{{.Config.Hostname}}' "$@"
-}
-
-dockhostname reloca_db_1
