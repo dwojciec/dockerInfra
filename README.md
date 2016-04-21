@@ -141,7 +141,7 @@ Date: Thu, 21 Apr 2016 09:30:06 GMT
 {"_status": "ERR", "_error": {"message": "Please provide proper credentials", "code": 401}}
 ```
 
-To test it outside the VM. From your laptop you have to be sure that the port used by the EVE container (here 80) is forwarded by the VM and you can use a browser or a application like PAW (MAC OSX) or Postman.
+To test it outside the VM. From your laptop you have to be sure that the port used by the EVE container (here 80) is forwarded by the VM (DOCKER_HOST IP) and you can use a browser or a application like PAW (MAC OSX) or Postman.
 
 example :
 
@@ -155,6 +155,7 @@ export DOCKER_MACHINE_NAME="developement"
 
 You can test the URL link http://192.168.99.103:80 
 
+![image](https://github.com/dwojciec/dockerInfra/blob/master/images/Postman_eve.png)
 
 To validate the nodejs container. You need to know the IP of your nodejs container using this command :
 
@@ -176,7 +177,20 @@ Connection: keep-alive
 
 Hello world
 ```
+To access from your laptop you have to use the IP address of your DOCKER_HOST (here 192.168.99.103) and the port 49160
+. http://192.168.99.103:49160
 
+```bash
+$ curl -i http://192.168.99.103:49160
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: text/html; charset=utf-8
+Content-Length: 12
+Date: Thu, 21 Apr 2016 13:54:34 GMT
+Connection: keep-alive
+
+Hello world
+```
 
 From my Terminal session or from a browser  :
 
