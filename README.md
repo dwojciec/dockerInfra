@@ -158,7 +158,7 @@ You can test the URL link http://192.168.99.103:80
 
 To validate the nodejs container. You need to know the IP of your nodejs container using this command :
 
-
+![image](https://github.com/dwojciec/dockerInfra/blob/master/images/Postman_eve.png)
 
 ```bash
 docker@developement:~$ docker inspect relocaio_nodejs_1 | grep IPAddress
